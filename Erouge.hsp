@@ -1,0 +1,558 @@
+title "ローグっぽいなにか名状しがたい(ry"
+
+;画面生成
+cls 4
+color 192,192,192
+boxf 0,0,680,300
+color 128,128,128
+boxf 85,33,560,267
+color 64,64,64
+boxf 170,66,470,234
+color 0,0,0
+boxf 256,100,384,200
+color 255,255,255
+line 0,0,256,100
+line 0,300,256,200
+line 640,0,384,100
+line 640,300,384,200
+line 256,100,256,200
+line 256,100,384,100
+line 384,100,384,200
+line 256,200,384,200
+line 0,300,680,300
+
+#module
+#deffunc clw
+		color 0, 0, 0
+		boxf 0, 301, 680, 480
+		color 255,255,255
+		pos 0, 310
+		return
+#global
+#module
+#deffunc clm
+		color 0, 0, 0
+		boxf 0, 301, 680, 400
+		color 255,255,255
+		pos 0, 310
+		return
+#global
+
+	ear = 3
+	step = 0
+
+*main
+
+pos 0,310
+mes {"迷宮に行きイェンダーの耳飾りを回収することを、
+	強いられているんだ！
+	push space key."}
+HP = 10
+MHP = 10
+att = 3
+dex = 3
+floor = 1
+onkey *c
+stop
+
+*c
+	onkey 0
+	clw
+	mes {"さて、どうしようか
+		進む：↑　戻る：↓
+		休む：←　探す：→"}
+	
+	mes "\n\n\nHP : " + HP + "/" + MHP + "   ATTACK : " + att + "  DEXTERITY : " + dex + "\nstep:" + step * 20 + "  階層:" + floor
+	eve = 0
+	attk = att
+	step += 1
+	repeat
+		stick key;カーソルキーの管理
+		getkey flag, 27;ローグキー配置用
+		getkey r, 82;r rest
+		getkey s, 83;s explore
+		getkey q, 81;suicide
+		getkey left, 72;h left
+		getkey right, 76;l right
+		getkey up, 75;k up
+		getkey down, 74;j down
+		getkey shift, 16;大文字用
+		if key = 1 | left = 1 : goto *rest
+		if key = 2 | up = 1 : goto *front
+		if key = 4 | right = 1 | s = 1 : goto *explore
+		if key = 8 | down = 1: goto *back
+		if flag = 1 : end
+		if q = 1 & shift = 1:goto *Qy@
+		if r = 1 & shift = 1:goto *rest
+		wait 10
+    loop
+    stop
+*front
+	clm
+	mes"先に進んだ\nPush space key."
+	floor += 1
+	if Mfloor <= floor{
+		Mfloor = floor
+	}
+	onkey *event
+	stop
+*back	
+	clm
+	mes"後ろに戻った\nPush space key."
+	floor -= 1
+	onkey *event
+	stop
+	
+*explore
+	clm
+	mes"辺りを探索した\nPush space key."
+	onkey *event
+	stop
+	
+*rest
+	clm
+mes"少し休んだ\nPush space key."
+	step += int(MHP / 3)
+	HP += int(MHP / 3)
+	if HP >= MHP{
+		HP = MHP
+	}
+	onkey *c
+	stop
+	
+*Qy@
+
+	clm
+
+	mes{"本当にゲームを閉じますか？
+		はい：y
+		いいえ:　n"}
+	q = 0
+	shift = 0
+		repeat
+		getkey y, 89
+		getkey n, 78
+		if y = 1 : goto *Qy@2
+		if n = 1 : goto *c
+		wait 10
+	loop
+	stop
+
+*Qy@2
+	y = 0
+	mes "@を押してください"
+	repeat
+		getkey @, 192
+		if @ = 1 : goto *score
+		wait 10
+	loop
+	stop
+
+*event
+	onkey 0
+	clm
+	if floor <= 0{
+		floor = 0
+	}
+	if floor >= 26{
+		floor = 26
+	}
+	
+	eve = floor + rnd(6) - 4
+	if eve <= 0 & ear = 2 : goto *out
+	if eve <= 0{
+		mes"外には出られない"
+		onkey *c
+		stop
+	}
+
+	if eve >= 27 & ear = 3 :goto *yendor
+	if eve >= 27 : eve = 26
+	
+		switch eve
+			case 1
+				mes"ヤク草を見つけた\nHPが回復した"
+				HP = HP + floor
+				if HP >= MHP{
+					HP = MHP
+				}
+				onkey *c
+				stop
+				swbreak
+			case 2
+				mes"敵を見つけた!"
+				eHP = floor * 2
+				eatt = floor * 1
+				espd = 1
+				ename = "蝙蝠"
+				onkey *battle
+				stop
+				swbreak
+			case 3
+				mes"冒険者の亡骸だ"
+				onkey *wear
+				stop
+				swbreak
+			case 4
+				mes"敵を見つけた!"
+				eHP = floor * 2
+				eatt = floor * 2
+				espd = 2
+				ename = "サーペント"
+				onkey *battle
+				stop
+				swbreak
+			case 5
+				mes"敵を見つけた!"
+				eHP = floor * 2
+				eatt = floor * 1
+				espd = 1
+				ename = "ゴブリン"
+				onkey *battle
+				stop
+				swbreak
+			case 6
+				mes"冒険者の亡骸だ"
+				onkey *wear
+				stop
+				swbreak
+			case 7
+				mes"ヤク草を見つけた\nHPが回復した"
+				HP = HP + floor
+				if HP >= MHP{
+					HP = MHP
+				}
+				onkey *c
+				stop
+				swbreak
+			case 8
+				mes"敵を見つけた!"
+				eHP = floor * 5
+				eatt = floor * 3
+				espd = 5
+				ename = "スライム"
+				onkey *battle
+				stop
+				swbreak
+			case 9
+				mes"冒険者の亡骸だ"
+				onkey *wear
+				stop
+				swbreak
+			case 10	
+				mes"ヤク草を見つけた\nHPが回復した"
+				HP = HP + floor
+				if HP >= MHP{
+					HP = MHP
+				}
+				onkey *c
+				stop
+				swbreak
+			case 11
+				mes"敵を見つけた!"
+				eHP = floor * 2
+				eatt = floor * 1
+				espd = 1
+				ename = "ホブゴブリン"
+				onkey *battle
+				stop
+				swbreak
+			case 12
+				mes"冒険者の亡骸だ"
+				onkey *wear
+				stop
+				swbreak
+			case 13
+				mes"敵を見つけた!"
+				eHP = floor * 1
+				eatt = floor * 3
+				espd = 2
+				ename = "スプリガン"
+				onkey *battle
+				stop
+				swbreak
+			case 14
+				mes"敵を見つけた!"
+				eHP = floor * 1
+				eatt = floor * 2
+				espd = 1
+				ename = "スケルトン"
+				onkey *battle
+				stop
+				swbreak
+			case 15
+				mes"冒険者の亡骸だ"
+				onkey *wear
+				stop
+				swbreak
+			case 16
+				mes"敵を見つけた!"
+				eHP = floor * 2
+				eatt = floor * 1
+				espd = 1
+				ename = "蝙蝠"
+				onkey *battle
+				stop
+				swbreak
+			case 17
+				mes"冒険者の亡骸だ"
+				onkey *wear
+				stop
+				swbreak
+			case 18
+				mes"冒険者の亡骸だ"
+				onkey *wear
+				stop
+				swbreak
+			case 19
+				mes"敵を見つけた!"
+				eHP = floor * 6
+				eatt = floor * 2
+				espd = 2
+				ename = "リビングアーマー"
+				onkey *battle
+				stop
+				swbreak
+			case 20
+				mes"冒険者の亡骸だ"
+				onkey *wear
+				stop
+				swbreak
+			case 21	
+				mes"ヤク草を見つけた\nHPが回復した"
+				HP = HP + floor
+				if HP >= MHP{
+					HP = MHP
+				}
+				onkey *c
+				stop
+				swbreak
+			case 23
+				mes"敵を見つけた!"
+				eHP = floor * 3
+				eatt = floor * 1
+				espd = 3
+				ename = "オーガ"
+				onkey *battle
+				stop
+				swbreak
+			case 24
+				mes"冒険者の亡骸だ"
+				onkey *wear
+				stop
+				swbreak
+			case 25
+				mes"冒険者の亡骸だ"
+				onkey *wear
+				stop
+				swbreak
+			case 26
+				mes"敵を見つけた!"
+				eHP = floor * 8
+				eatt = floor * 10
+				espd = 1
+				ename = "ドラゴン"
+				onkey *battle
+				stop
+				swbreak
+		swend
+		onkey *c
+		stop
+
+*yendor
+		mes{"イェンダーの耳飾りを見つけた
+			外に出るため戻ろう"}
+		ear = 2
+		onkey *c
+		stop
+*out
+	clm
+	ear = 1
+	mes"あなたは耳飾りを手に、迷宮を去った\nPush any key."
+	onkey *score
+	stop
+
+*score
+	onkey 0
+	scr = ( MHP + att + dex ) * 50 * Mfloor / ear /int(( step / 100 ) + 1)
+	mes"あなたのスコアは" + scr + "でした\nPush any key."
+	onkey *ending
+	stop
+	
+*ending
+	onkey 0
+	end
+
+;戦闘用
+*battle
+	onkey 0
+	clw
+	if HP <= 0{
+		mes "あなたは死んでしまった……"
+		onkey *score
+		stop
+	}
+	if eHP <= 0{
+		mes "敵を倒した！"
+		onkey *glow
+		stop
+	}
+	turn += 1 
+	mes ename 
+	mes {"あなたはどうする
+		攻撃：↑　逃げる：↓
+		守る：←　溜める：→"}
+	
+	mes "\n\nHP : " + HP + "/" + MHP + "   ATTACK : " + att + "  DEXTERITY : " + dex 
+	repeat
+		stick key;カーソルキーの管理
+		getkey flag, 27;ローグキー配置用
+		getkey left, 72;h left
+		getkey right, 76;l right
+		getkey up, 75;k up
+		getkey down, 74;j down
+		if key = 1 | left = 1: goto *guard;hidari
+		if key = 2 | up = 1: goto *attack;ue
+		if key = 4 | right = 1: goto *charge;migi
+		if key = 8 | down = 1: goto *escape;sita
+		if flag = 1 : end
+		wait 10
+    loop
+	stop
+
+*guard
+	clm
+	mes ename
+	if turn \ espd = 0{
+		mes ename + "の攻撃から身を守った"
+		HP = HP - limit(eatt - dex, 1 , 2000) 
+		wait 50
+	}
+	else { mes ename + "は襲ってこなかった……"
+	}
+	onkey *battle
+	stop
+	
+*attack
+	clm
+	mes ename
+	if turn \ espd = 0{
+		mes ename + "の攻撃！\n" + eatt + "のダメージ！"
+		HP = HP - eatt
+		wait 50
+	}
+	mes "あなたの攻撃！\n"+ attk + "のダメージ！"
+	eHP = eHP - attk
+	attk = att
+	onkey *battle
+	stop
+	
+*charge
+	clm
+	mes ename
+	if turn \ espd = 0{
+		mes ename + "の攻撃！"
+		mes eatt + "のダメージ"
+		HP = HP - eatt
+	}
+	mes "あなたは力を溜めている……"
+	attk = attk + att + int(( dex / 2 ) + 1 )
+	onkey *battle
+	stop
+	
+*escape
+	clm
+	mes ename
+	if floor / espd +rnd(5) <= dex + rnd(dex){
+		mes"あなたは無事に" + ename + "から逃げ切った"
+		onkey *c
+		stop
+	}
+	mes ename + "に追いつかれた！"
+	wait 50
+	if turn \ espd = 0{
+		mes ename + "の攻撃！"
+		mes eatt + "のダメージ"
+		HP = HP - eatt
+	}
+	onkey *battle
+	stop
+	
+*glow
+	clw
+	mes {"あなたは成長した
+			どのステータスを上げる？
+			MaxHP：↑　ATTACK：→
+			DEXTERITY：←"}
+	mes "\n\nHP : " + HP + "/" + MHP + "   ATTACK : " + att + "  DEXTERITY : " + dex 
+
+	repeat
+		stick key;カーソルキーの管理
+		getkey flag, 27;ローグキー配置用
+		getkey left, 72;h left
+		getkey right, 76;l right
+		getkey up, 75;k up
+		if key = 1 | left = 1{
+			clm
+			mes"DEXTERITYが上がった"
+			dex = dex + int(( floor / 3 ) + 1)
+			onkey *c
+			stop
+		};hidari
+		if key = 2 | up = 1{
+			clm
+			mes"MaxHPが上がった"
+			MHP = MHP + floor
+			onkey *c
+			stop
+		};ue
+		if key = 4 | right = 1{
+			clm
+			mes"ATTACKが上がった"
+			att = att + int( ( floor / 2 ) + 1)
+			onkey *c
+			stop
+		};migi
+		if flag = 1 : end
+		wait 50
+    loop
+	stop
+*wear
+	clw
+	mes {"あなたは装備品を見つけた。
+			なにがある？
+			鎧だ！：↑　剣だ！：→
+			籠手だ！：←"}
+	mes "\n\nHP : " + HP + "/" + MHP + "   ATTACK : " + att + "  DEXTERITY : " + dex 
+
+	repeat
+		stick key;カーソルキーの管理
+		getkey flag, 27;ローグキー配置用
+		getkey left, 72;h left
+		getkey right, 76;l right
+		getkey up, 75;k up
+		if key = 1 | left = 1{
+			clm
+			mes"DEXTERITYが上がった"
+			dex = dex + int( ( floor / 4 ) + 1)
+			onkey *c
+			stop
+		};hidari
+		if key = 2 | up = 1{
+			clm
+			mes"MHPが上がった"
+			MHP = MHP + int( ( floor / 2 ) + 1)
+			onkey *c
+			stop
+		};ue
+		if key = 4 | right = 1{
+			clm
+			mes"ATTACKが上がった"
+			att = att + int( ( floor / 3 ) + 1)
+			onkey *c
+			stop
+		};migi
+		if flag = 1 : end
+		wait 50
+    loop
+	stop
