@@ -37,6 +37,16 @@ line 0,300,680,300
 		pos 0, 310
 		return
 #global
+#module
+#deffunc DisplayHP int now, int max
+		color 128, 128, 128
+		boxf 10, 465, 10 + 256, 475
+		color 0, 255, 0
+		boxf 10, 465, 10 + 256 * now / max, 475
+		color 255,255,255
+		pos 0, 310
+		return
+#global
 
 	ear = 3
 	step = 0
@@ -55,6 +65,7 @@ floor = 1
 onkey *c
 stop
 
+
 *c
 	onkey 0
 	clw
@@ -66,6 +77,7 @@ stop
 	eve = 0
 	attk = att
 	step += 1
+	DisplayHP HP, MHP
 	repeat
 		stick key;カーソルキーの管理
 		getkey flag, 27;ローグキー配置用
@@ -151,6 +163,7 @@ mes"少し休んだ\nPush space key."
 *event
 	onkey 0
 	clm
+	DisplayHP HP, MHP
 	if floor <= 0{
 		floor = 0
 	}
@@ -387,6 +400,7 @@ mes"少し休んだ\nPush space key."
 *battle
 	onkey 0
 	clw
+	DisplayHP HP, MHP
 	if HP <= 0{
 		mes "あなたは死んでしまった……"
 		onkey *score
