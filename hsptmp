@@ -1,5 +1,5 @@
 title "ローグっぽいなにか名状しがたい(ry"
-
+title "" + eHP
 ;画面生成
 cls 4
 color 192,192,192
@@ -26,7 +26,7 @@ line 0,300,680,300
 		color 0, 0, 0
 		boxf 0, 301, 680, 480
 		color 255,255,255
-		pos 0, 310
+		pos 5, 310
 		return
 #global
 #module
@@ -34,29 +34,44 @@ line 0,300,680,300
 		color 0, 0, 0
 		boxf 0, 301, 680, 400
 		color 255,255,255
-		pos 0, 310
+		pos 5, 310
 		return
 #global
 #module
-#deffunc DisplayHP int now, int max
+#deffunc eSt int eHP, int eatt, int espd, str n
+	mes"敵を見つけた!"
+	eHP = floor * eHP
+	eatt = floor * eatt
+	espd = espd
+	ename = n
+	return eHP eatt espd
+#global
+	goto *main
+*DisplayHP
 		color 128, 128, 128
 		boxf 10, 465, 10 + 256, 475
 		color 0, 255, 0
-		boxf 10, 465, 10 + 256 * now / max, 475
+		boxf 10, 465, 10 + 256 * HP / MHP, 475
 		color 255,255,255
-		pos 0, 310
+		pos 5, 310
 		return
-#global
+*showS 
+		color 255,255,255
+		pos 5,420
+		mes "HP : " + HP + "/" + MHP + "   ATTACK : " + att + "   DEXTERITY : " + dex
+		mes "歩数：" + (step * 20 + rnd(20)) + " 階層：" + floor
+		pos 10, 310
+		return
 
-	ear = 3
-	step = 0
+	
 
 *main
-
-pos 0,310
+	ear = 3
+	step = 0
+pos 5,310
 mes {"迷宮に行きイェンダーの耳飾りを回収することを、
 	強いられているんだ！
-	push space key."}
+	Push any key."}
 HP = 10
 MHP = 10
 att = 3
@@ -70,14 +85,14 @@ stop
 	onkey 0
 	clw
 	mes {"さて、どうしようか
-		進む：↑　戻る：↓
-		休む：←　探す：→"}
+	進む：↑　戻る：↓
+	休む：←　探す：→"}
 	
-	mes "\n\n\nHP : " + HP + "/" + MHP + "   ATTACK : " + att + "  DEXTERITY : " + dex + "\nstep:" + step * 20 + "  階層:" + floor
-	eve = 0
+	gosub *showS
+	gosub *DisplayHP
 	attk = att
 	step += 1
-	DisplayHP HP, MHP
+
 	repeat
 		stick key;カーソルキーの管理
 		getkey flag, 27;ローグキー配置用
@@ -135,12 +150,10 @@ mes"少し休んだ\nPush space key."
 *Qy@
 
 	clm
-
 	mes{"本当にゲームを閉じますか？
 		はい：y
 		いいえ:　n"}
-	q = 0
-	shift = 0
+
 		repeat
 		getkey y, 89
 		getkey n, 78
@@ -163,7 +176,6 @@ mes"少し休んだ\nPush space key."
 *event
 	onkey 0
 	clm
-	DisplayHP HP, MHP
 	if floor <= 0{
 		floor = 0
 	}
@@ -171,18 +183,19 @@ mes"少し休んだ\nPush space key."
 		floor = 26
 	}
 	
-	eve = floor + rnd(6) - 4
-	if eve <= 0 & ear = 2 : goto *out
-	if eve <= 0{
+	eve = floor + rnd(4)
+	if eve = 0 & ear = 2 : goto *out
+	if eve = 0{
 		mes"外には出られない"
 		onkey *c
 		stop
 	}
 
-	if eve >= 27 & ear = 3 :goto *yendor
+	if eve = 29 & ear = 3 :goto *yendor
 	if eve >= 27 : eve = 26
+
 	
-		switch eve
+		switch eve ;イベントが重複しているから関数？かモジュール？にしたい
 			case 1
 				mes"ヤク草を見つけた\nHPが回復した"
 				HP = HP + floor
@@ -193,11 +206,7 @@ mes"少し休んだ\nPush space key."
 				stop
 				swbreak
 			case 2
-				mes"敵を見つけた!"
-				eHP = floor * 2
-				eatt = floor * 1
-				espd = 1
-				ename = "蝙蝠"
+				eSt 2, 1, 1, "蝙蝠"
 				onkey *battle
 				stop
 				swbreak
@@ -303,7 +312,7 @@ mes"少し休んだ\nPush space key."
 				eHP = floor * 2
 				eatt = floor * 1
 				espd = 1
-				ename = "蝙蝠"
+				ename = "迷宮蝙蝠"
 				onkey *battle
 				stop
 				swbreak
@@ -368,6 +377,7 @@ mes"少し休んだ\nPush space key."
 				onkey *battle
 				stop
 				swbreak
+			;敵増やして Add "Lily Uncle"
 		swend
 		onkey *c
 		stop
@@ -398,9 +408,11 @@ mes"少し休んだ\nPush space key."
 
 ;戦闘用
 *battle
+	title "" + eHP
 	onkey 0
 	clw
-	DisplayHP HP, MHP
+	gosub *showS
+	gosub *DisplayHP
 	if HP <= 0{
 		mes "あなたは死んでしまった……"
 		onkey *score
@@ -417,7 +429,6 @@ mes"少し休んだ\nPush space key."
 		攻撃：↑　逃げる：↓
 		守る：←　溜める：→"}
 	
-	mes "\n\nHP : " + HP + "/" + MHP + "   ATTACK : " + att + "  DEXTERITY : " + dex 
 	repeat
 		stick key;カーソルキーの管理
 		getkey flag, 27;ローグキー配置用
@@ -439,7 +450,7 @@ mes"少し休んだ\nPush space key."
 	mes ename
 	if turn \ espd = 0{
 		mes ename + "の攻撃から身を守った"
-		HP = HP - limit(eatt - dex, 1 , 2000) 
+		HP = HP - limit(eatt - dex, 1 , eatt) 
 		wait 50
 	}
 	else { mes ename + "は襲ってこなかった……"
@@ -450,7 +461,7 @@ mes"少し休んだ\nPush space key."
 *attack
 	clm
 	mes ename
-	if turn \ espd = 0{
+	if turn \ espd = 0{ ;[\]ではなく[%]では？ ←ウチのシマでは\
 		mes ename + "の攻撃！\n" + eatt + "のダメージ！"
 		HP = HP - eatt
 		wait 50
@@ -483,7 +494,7 @@ mes"少し休んだ\nPush space key."
 		stop
 	}
 	mes ename + "に追いつかれた！"
-	wait 50
+	wait 50 ;50frame = 1.6sec? 長くない？ ← 0.5sec
 	if turn \ espd = 0{
 		mes ename + "の攻撃！"
 		mes eatt + "のダメージ"
@@ -494,11 +505,12 @@ mes"少し休んだ\nPush space key."
 	
 *glow
 	clw
+	gosub *showS
+	gosub *DisplayHP
 	mes {"あなたは成長した
 			どのステータスを上げる？
 			MaxHP：↑　ATTACK：→
 			DEXTERITY：←"}
-	mes "\n\nHP : " + HP + "/" + MHP + "   ATTACK : " + att + "  DEXTERITY : " + dex 
 
 	repeat
 		stick key;カーソルキーの管理
@@ -537,8 +549,8 @@ mes"少し休んだ\nPush space key."
 			なにがある？
 			鎧だ！：↑　剣だ！：→
 			籠手だ！：←"}
-	mes "\n\nHP : " + HP + "/" + MHP + "   ATTACK : " + att + "  DEXTERITY : " + dex 
-
+	gosub *showS
+	gosub *DisplayHP
 	repeat
 		stick key;カーソルキーの管理
 		getkey flag, 27;ローグキー配置用
