@@ -1,5 +1,5 @@
 //初期処理
-title "ローグっぽいなにか名状しがたい(ry"
+title "Erouge" //+ "ローグっぽいなにか名状しがたい(ry"
 ///title "eHP :" + eHP@ + "/" + eHP@eSt + "[eve]" + eve
 ;画面生成
 cls 4
@@ -67,13 +67,13 @@ return
 	color 255,255,255
 	pos 5,420
 	mes "HP : " + HP + "/" + MHP + "   ATTACK : " + att + "   DEXTERITY : " + dex
-	mes "歩数：" + (step * 20 + rnd(20)) + " 階層：" + floor
+	mes "歩数：" + sstep + " 階層：" + floor
 	pos 10, 310
 	return
 *lookEnemy
 	color 255,255,255
 	pos 200, 310
-	playerFP = sqrt(MHP) + att * 4 + dex * 2 + 1
+	playerFP = sqrt(MHP) + att * 4 + dex + 1
 	enemyFP = 1.0
 	if(espd > 0) : enemyFP = ( sqrt(eMHP) + eatt * 4 ) / espd + 1
 	rateFP = enemyFP / playerFP
@@ -115,11 +115,12 @@ stop
 	mes {"さて、どうしようか
 	進む：↑　戻る：↓
 	休む：←　探す：→"}
-	
+	sstep = step + rnd(20)
 	gosub *showS
 	gosub *DisplayHP
 	attk = att
 	step += 1
+	turn = 0
 
 	repeat
 		stick key;カーソルキーの管理
@@ -346,7 +347,7 @@ mes"少し休んだ\nPush space key."
 				stop
 				swbreak
 			case 26
-				eSt 8, 10, 1, "ドラゴン"
+				eSt 30, 10, 3, "ドラゴン"
 				onkey *battle
 				stop
 				swbreak
@@ -381,7 +382,7 @@ mes"少し休んだ\nPush space key."
 
 ;戦闘用
 *battle
-	title "" + isObserve + "[eve]" + eve
+	//title "" + isObserve + "[eve]" + eve
 	onkey 0
 	clw
 	gosub *showS
@@ -483,7 +484,7 @@ mes"少し休んだ\nPush space key."
 		HP = HP - eatt
 	}
 	mes "あなたは力を溜めている……"
-	attk = attk + att + int(( dex / 2 ) + 1 )
+	attk = attk + att + (dex * 2) 
 	onkey *battle
 	stop
 	
