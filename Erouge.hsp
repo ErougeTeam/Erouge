@@ -1,6 +1,6 @@
-title "ƒ[ƒO‚Á‚Û‚¢‚È‚É‚©–¼ó‚µ‚ª‚½‚¢(ry"
+title "ãƒ­ãƒ¼ã‚°ã£ã½ã„ãªã«ã‹åçŠ¶ã—ãŒãŸã„(ry"
 
-;‰æ–Ê¶¬
+;ç”»é¢ç”Ÿæˆ
 cls 4
 color 192,192,192
 boxf 0,0,680,300
@@ -54,8 +54,8 @@ line 0,300,680,300
 *main
 
 pos 0,310
-mes {"–À‹{‚És‚«ƒCƒFƒ“ƒ_[‚Ì¨ü‚è‚ğ‰ñû‚·‚é‚±‚Æ‚ğA
-	‹­‚¢‚ç‚ê‚Ä‚¢‚é‚ñ‚¾I
+mes {"è¿·å®®ã«è¡Œãã‚¤ã‚§ãƒ³ãƒ€ãƒ¼ã®è€³é£¾ã‚Šã‚’å›åã™ã‚‹ã“ã¨ã‚’ã€
+	å¼·ã„ã‚‰ã‚Œã¦ã„ã‚‹ã‚“ã ï¼
 	push space key."}
 HP = 10
 MHP = 10
@@ -69,18 +69,18 @@ stop
 *c
 	onkey 0
 	clw
-	mes {"‚³‚ÄA‚Ç‚¤‚µ‚æ‚¤‚©
-		i‚ŞFª@–ß‚éF«
-		‹x‚ŞF©@’T‚·F¨"}
+	mes {"ã•ã¦ã€ã©ã†ã—ã‚ˆã†ã‹
+		é€²ã‚€ï¼šâ†‘ã€€æˆ»ã‚‹ï¼šâ†“
+		ä¼‘ã‚€ï¼šâ†ã€€æ¢ã™ï¼šâ†’"}
 	
-	mes "\n\n\nHP : " + HP + "/" + MHP + "   ATTACK : " + att + "  DEXTERITY : " + dex + "\nstep:" + step * 20 + "  ŠK‘w:" + floor
+	mes "\n\n\nHP : " + HP + "/" + MHP + "   ATTACK : " + att + "  DEXTERITY : " + dex + "\nstep:" + step * 20 + "  éšå±¤:" + floor
 	eve = 0
 	attk = att
 	step += 1
 	DisplayHP HP, MHP
 	repeat
-		stick key;ƒJ[ƒ\ƒ‹ƒL[‚ÌŠÇ—
-		getkey flag, 27;ƒ[ƒOƒL[”z’u—p
+		stick key;ã‚«ãƒ¼ã‚½ãƒ«ã‚­ãƒ¼ã®ç®¡ç†
+		getkey flag, 27;ãƒ­ãƒ¼ã‚°ã‚­ãƒ¼é…ç½®ç”¨
 		getkey r, 82;r rest
 		getkey s, 83;s explore
 		getkey q, 81;suicide
@@ -88,7 +88,7 @@ stop
 		getkey right, 76;l right
 		getkey up, 75;k up
 		getkey down, 74;j down
-		getkey shift, 16;‘å•¶š—p
+		getkey shift, 16;å¤§æ–‡å­—ç”¨
 		if key = 1 | left = 1 : goto *rest
 		if key = 2 | up = 1 : goto *front
 		if key = 4 | right = 1 | s = 1 : goto *explore
@@ -101,7 +101,7 @@ stop
     stop
 *front
 	clm
-	mes"æ‚Éi‚ñ‚¾\nPush space key."
+	mes"å…ˆã«é€²ã‚“ã \nPush space key."
 	floor += 1
 	if Mfloor <= floor{
 		Mfloor = floor
@@ -110,20 +110,20 @@ stop
 	stop
 *back	
 	clm
-	mes"Œã‚ë‚É–ß‚Á‚½\nPush space key."
+	mes"å¾Œã‚ã«æˆ»ã£ãŸ\nPush space key."
 	floor -= 1
 	onkey *event
 	stop
 	
 *explore
 	clm
-	mes"•Ó‚è‚ğ’Tõ‚µ‚½\nPush space key."
+	mes"è¾ºã‚Šã‚’æ¢ç´¢ã—ãŸ\nPush space key."
 	onkey *event
 	stop
 	
 *rest
 	clm
-mes"­‚µ‹x‚ñ‚¾\nPush space key."
+mes"å°‘ã—ä¼‘ã‚“ã \nPush space key."
 	step += int(MHP / 3)
 	HP += int(MHP / 3)
 	if HP >= MHP{
@@ -136,9 +136,9 @@ mes"­‚µ‹x‚ñ‚¾\nPush space key."
 
 	clm
 
-	mes{"–{“–‚ÉƒQ[ƒ€‚ğ•Â‚¶‚Ü‚·‚©H
-		‚Í‚¢Fy
-		‚¢‚¢‚¦:@n"}
+	mes{"æœ¬å½“ã«ã‚²ãƒ¼ãƒ ã‚’é–‰ã˜ã¾ã™ã‹ï¼Ÿ
+		ã¯ã„ï¼šy
+		ã„ã„ãˆ:ã€€n"}
 	q = 0
 	shift = 0
 		repeat
@@ -152,7 +152,7 @@ mes"­‚µ‹x‚ñ‚¾\nPush space key."
 
 *Qy@2
 	y = 0
-	mes "@‚ğ‰Ÿ‚µ‚Ä‚­‚¾‚³‚¢"
+	mes "@ã‚’æŠ¼ã—ã¦ãã ã•ã„"
 	repeat
 		getkey @, 192
 		if @ = 1 : goto *score
@@ -174,7 +174,7 @@ mes"­‚µ‹x‚ñ‚¾\nPush space key."
 	eve = floor + rnd(6) - 4
 	if eve <= 0 & ear = 2 : goto *out
 	if eve <= 0{
-		mes"ŠO‚É‚Ío‚ç‚ê‚È‚¢"
+		mes"å¤–ã«ã¯å‡ºã‚‰ã‚Œãªã„"
 		onkey *c
 		stop
 	}
@@ -182,9 +182,9 @@ mes"­‚µ‹x‚ñ‚¾\nPush space key."
 	if eve >= 27 & ear = 3 :goto *yendor
 	if eve >= 27 : eve = 26
 	
-		switch eve
+		switch eve ;ã‚¤ãƒ™ãƒ³ãƒˆãŒé‡è¤‡ã—ã¦ã„ã‚‹ã‹ã‚‰é–¢æ•°ï¼Ÿã‹ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ï¼Ÿã«ã—ãŸã„
 			case 1
-				mes"ƒ„ƒN‘‚ğŒ©‚Â‚¯‚½\nHP‚ª‰ñ•œ‚µ‚½"
+				mes"ãƒ¤ã‚¯è‰ã‚’è¦‹ã¤ã‘ãŸ\nHPãŒå›å¾©ã—ãŸ"
 				HP = HP + floor
 				if HP >= MHP{
 					HP = MHP
@@ -193,44 +193,44 @@ mes"­‚µ‹x‚ñ‚¾\nPush space key."
 				stop
 				swbreak
 			case 2
-				mes"“G‚ğŒ©‚Â‚¯‚½!"
+				mes"æ•µã‚’è¦‹ã¤ã‘ãŸ!"
 				eHP = floor * 2
 				eatt = floor * 1
 				espd = 1
-				ename = "åå•"
+				ename = "è™è "
 				onkey *battle
 				stop
 				swbreak
 			case 3
-				mes"–`Œ¯Ò‚Ì–SŠ[‚¾"
+				mes"å†’é™ºè€…ã®äº¡éª¸ã "
 				onkey *wear
 				stop
 				swbreak
 			case 4
-				mes"“G‚ğŒ©‚Â‚¯‚½!"
+				mes"æ•µã‚’è¦‹ã¤ã‘ãŸ!"
 				eHP = floor * 2
 				eatt = floor * 2
 				espd = 2
-				ename = "ƒT[ƒyƒ“ƒg"
+				ename = "ã‚µãƒ¼ãƒšãƒ³ãƒˆ"
 				onkey *battle
 				stop
 				swbreak
 			case 5
-				mes"“G‚ğŒ©‚Â‚¯‚½!"
+				mes"æ•µã‚’è¦‹ã¤ã‘ãŸ!"
 				eHP = floor * 2
 				eatt = floor * 1
 				espd = 1
-				ename = "ƒSƒuƒŠƒ“"
+				ename = "ã‚´ãƒ–ãƒªãƒ³"
 				onkey *battle
 				stop
 				swbreak
 			case 6
-				mes"–`Œ¯Ò‚Ì–SŠ[‚¾"
+				mes"å†’é™ºè€…ã®äº¡éª¸ã "
 				onkey *wear
 				stop
 				swbreak
 			case 7
-				mes"ƒ„ƒN‘‚ğŒ©‚Â‚¯‚½\nHP‚ª‰ñ•œ‚µ‚½"
+				mes"ãƒ¤ã‚¯è‰ã‚’è¦‹ã¤ã‘ãŸ\nHPãŒå›å¾©ã—ãŸ"
 				HP = HP + floor
 				if HP >= MHP{
 					HP = MHP
@@ -239,21 +239,21 @@ mes"­‚µ‹x‚ñ‚¾\nPush space key."
 				stop
 				swbreak
 			case 8
-				mes"“G‚ğŒ©‚Â‚¯‚½!"
+				mes"æ•µã‚’è¦‹ã¤ã‘ãŸ!"
 				eHP = floor * 5
 				eatt = floor * 3
 				espd = 5
-				ename = "ƒXƒ‰ƒCƒ€"
+				ename = "ã‚¹ãƒ©ã‚¤ãƒ "
 				onkey *battle
 				stop
 				swbreak
 			case 9
-				mes"–`Œ¯Ò‚Ì–SŠ[‚¾"
+				mes"å†’é™ºè€…ã®äº¡éª¸ã "
 				onkey *wear
 				stop
 				swbreak
 			case 10	
-				mes"ƒ„ƒN‘‚ğŒ©‚Â‚¯‚½\nHP‚ª‰ñ•œ‚µ‚½"
+				mes"ãƒ¤ã‚¯è‰ã‚’è¦‹ã¤ã‘ãŸ\nHPãŒå›å¾©ã—ãŸ"
 				HP = HP + floor
 				if HP >= MHP{
 					HP = MHP
@@ -262,77 +262,77 @@ mes"­‚µ‹x‚ñ‚¾\nPush space key."
 				stop
 				swbreak
 			case 11
-				mes"“G‚ğŒ©‚Â‚¯‚½!"
+				mes"æ•µã‚’è¦‹ã¤ã‘ãŸ!"
 				eHP = floor * 2
 				eatt = floor * 1
 				espd = 1
-				ename = "ƒzƒuƒSƒuƒŠƒ“"
+				ename = "ãƒ›ãƒ–ã‚´ãƒ–ãƒªãƒ³"
 				onkey *battle
 				stop
 				swbreak
 			case 12
-				mes"–`Œ¯Ò‚Ì–SŠ[‚¾"
+				mes"å†’é™ºè€…ã®äº¡éª¸ã "
 				onkey *wear
 				stop
 				swbreak
 			case 13
-				mes"“G‚ğŒ©‚Â‚¯‚½!"
+				mes"æ•µã‚’è¦‹ã¤ã‘ãŸ!"
 				eHP = floor * 1
 				eatt = floor * 3
 				espd = 2
-				ename = "ƒXƒvƒŠƒKƒ“"
+				ename = "ã‚¹ãƒ—ãƒªã‚¬ãƒ³"
 				onkey *battle
 				stop
 				swbreak
 			case 14
-				mes"“G‚ğŒ©‚Â‚¯‚½!"
+				mes"æ•µã‚’è¦‹ã¤ã‘ãŸ!"
 				eHP = floor * 1
 				eatt = floor * 2
 				espd = 1
-				ename = "ƒXƒPƒ‹ƒgƒ“"
+				ename = "ã‚¹ã‚±ãƒ«ãƒˆãƒ³"
 				onkey *battle
 				stop
 				swbreak
 			case 15
-				mes"–`Œ¯Ò‚Ì–SŠ[‚¾"
+				mes"å†’é™ºè€…ã®äº¡éª¸ã "
 				onkey *wear
 				stop
 				swbreak
 			case 16
-				mes"“G‚ğŒ©‚Â‚¯‚½!"
+				mes"æ•µã‚’è¦‹ã¤ã‘ãŸ!"
 				eHP = floor * 2
 				eatt = floor * 1
 				espd = 1
-				ename = "åå•"
+				ename = "è™è "
 				onkey *battle
 				stop
 				swbreak
 			case 17
-				mes"–`Œ¯Ò‚Ì–SŠ[‚¾"
+				mes"å†’é™ºè€…ã®äº¡éª¸ã "
 				onkey *wear
 				stop
 				swbreak
 			case 18
-				mes"–`Œ¯Ò‚Ì–SŠ[‚¾"
+				mes"å†’é™ºè€…ã®äº¡éª¸ã "
 				onkey *wear
 				stop
 				swbreak
 			case 19
-				mes"“G‚ğŒ©‚Â‚¯‚½!"
+				mes"æ•µã‚’è¦‹ã¤ã‘ãŸ!"
 				eHP = floor * 6
 				eatt = floor * 2
 				espd = 2
-				ename = "ƒŠƒrƒ“ƒOƒA[ƒ}["
+				ename = "ãƒªãƒ“ãƒ³ã‚°ã‚¢ãƒ¼ãƒãƒ¼"
 				onkey *battle
 				stop
 				swbreak
 			case 20
-				mes"–`Œ¯Ò‚Ì–SŠ[‚¾"
+				mes"å†’é™ºè€…ã®äº¡éª¸ã "
 				onkey *wear
 				stop
 				swbreak
 			case 21	
-				mes"ƒ„ƒN‘‚ğŒ©‚Â‚¯‚½\nHP‚ª‰ñ•œ‚µ‚½"
+				mes"ãƒ¤ã‚¯è‰ã‚’è¦‹ã¤ã‘ãŸ\nHPãŒå›å¾©ã—ãŸ"
 				HP = HP + floor
 				if HP >= MHP{
 					HP = MHP
@@ -341,54 +341,55 @@ mes"­‚µ‹x‚ñ‚¾\nPush space key."
 				stop
 				swbreak
 			case 23
-				mes"“G‚ğŒ©‚Â‚¯‚½!"
+				mes"æ•µã‚’è¦‹ã¤ã‘ãŸ!"
 				eHP = floor * 3
 				eatt = floor * 1
 				espd = 3
-				ename = "ƒI[ƒK"
+				ename = "ã‚ªãƒ¼ã‚¬"
 				onkey *battle
 				stop
 				swbreak
 			case 24
-				mes"–`Œ¯Ò‚Ì–SŠ[‚¾"
+				mes"å†’é™ºè€…ã®äº¡éª¸ã "
 				onkey *wear
 				stop
 				swbreak
 			case 25
-				mes"–`Œ¯Ò‚Ì–SŠ[‚¾"
+				mes"å†’é™ºè€…ã®äº¡éª¸ã "
 				onkey *wear
 				stop
 				swbreak
 			case 26
-				mes"“G‚ğŒ©‚Â‚¯‚½!"
+				mes"æ•µã‚’è¦‹ã¤ã‘ãŸ!"
 				eHP = floor * 8
 				eatt = floor * 10
 				espd = 1
-				ename = "ƒhƒ‰ƒSƒ“"
+				ename = "ãƒ‰ãƒ©ã‚´ãƒ³"
 				onkey *battle
 				stop
 				swbreak
+			;æ•µå¢—ã‚„ã—ã¦ Add "Lily Uncle"
 		swend
 		onkey *c
 		stop
 
 *yendor
-		mes{"ƒCƒFƒ“ƒ_[‚Ì¨ü‚è‚ğŒ©‚Â‚¯‚½
-			ŠO‚Éo‚é‚½‚ß–ß‚ë‚¤"}
+		mes{"ã‚¤ã‚§ãƒ³ãƒ€ãƒ¼ã®è€³é£¾ã‚Šã‚’è¦‹ã¤ã‘ãŸ
+			å¤–ã«å‡ºã‚‹ãŸã‚æˆ»ã‚ã†"}
 		ear = 2
 		onkey *c
 		stop
 *out
 	clm
 	ear = 1
-	mes"‚ ‚È‚½‚Í¨ü‚è‚ğè‚ÉA–À‹{‚ğ‹‚Á‚½\nPush any key."
+	mes"ã‚ãªãŸã¯è€³é£¾ã‚Šã‚’æ‰‹ã«ã€è¿·å®®ã‚’å»ã£ãŸ\nPush any key."
 	onkey *score
 	stop
 
 *score
 	onkey 0
 	scr = ( MHP + att + dex ) * 50 * Mfloor / ear /int(( step / 100 ) + 1)
-	mes"‚ ‚È‚½‚ÌƒXƒRƒA‚Í" + scr + "‚Å‚µ‚½\nPush any key."
+	mes"ã‚ãªãŸã®ã‚¹ã‚³ã‚¢ã¯" + scr + "ã§ã—ãŸ\nPush any key."
 	onkey *ending
 	stop
 	
@@ -396,31 +397,31 @@ mes"­‚µ‹x‚ñ‚¾\nPush space key."
 	onkey 0
 	end
 
-;í“¬—p
+;æˆ¦é—˜ç”¨
 *battle
 	onkey 0
 	clw
 	DisplayHP HP, MHP
 	if HP <= 0{
-		mes "‚ ‚È‚½‚Í€‚ñ‚Å‚µ‚Ü‚Á‚½cc"
+		mes "ã‚ãªãŸã¯æ­»ã‚“ã§ã—ã¾ã£ãŸâ€¦â€¦"
 		onkey *score
 		stop
 	}
 	if eHP <= 0{
-		mes "“G‚ğ“|‚µ‚½I"
+		mes "æ•µã‚’å€’ã—ãŸï¼"
 		onkey *glow
 		stop
 	}
 	turn += 1 
 	mes ename 
-	mes {"‚ ‚È‚½‚Í‚Ç‚¤‚·‚é
-		UŒ‚Fª@“¦‚°‚éF«
-		ç‚éF©@—­‚ß‚éF¨"}
+	mes {"ã‚ãªãŸã¯ã©ã†ã™ã‚‹
+		æ”»æ’ƒï¼šâ†‘ã€€é€ƒã’ã‚‹ï¼šâ†“
+		å®ˆã‚‹ï¼šâ†ã€€æºœã‚ã‚‹ï¼šâ†’"}
 	
 	mes "\n\nHP : " + HP + "/" + MHP + "   ATTACK : " + att + "  DEXTERITY : " + dex 
 	repeat
-		stick key;ƒJ[ƒ\ƒ‹ƒL[‚ÌŠÇ—
-		getkey flag, 27;ƒ[ƒOƒL[”z’u—p
+		stick key;ã‚«ãƒ¼ã‚½ãƒ«ã‚­ãƒ¼ã®ç®¡ç†
+		getkey flag, 27;ãƒ­ãƒ¼ã‚°ã‚­ãƒ¼é…ç½®ç”¨
 		getkey left, 72;h left
 		getkey right, 76;l right
 		getkey up, 75;k up
@@ -438,11 +439,11 @@ mes"­‚µ‹x‚ñ‚¾\nPush space key."
 	clm
 	mes ename
 	if turn \ espd = 0{
-		mes ename + "‚ÌUŒ‚‚©‚çg‚ğç‚Á‚½"
-		HP = HP - limit(eatt - dex, 1 , 2000) 
+		mes ename + "ã®æ”»æ’ƒã‹ã‚‰èº«ã‚’å®ˆã£ãŸ"
+		HP = HP - limit(eatt - dex, 1 , eatt) 
 		wait 50
 	}
-	else { mes ename + "‚ÍP‚Á‚Ä‚±‚È‚©‚Á‚½cc"
+	else { mes ename + "ã¯è¥²ã£ã¦ã“ãªã‹ã£ãŸâ€¦â€¦"
 	}
 	onkey *battle
 	stop
@@ -450,12 +451,12 @@ mes"­‚µ‹x‚ñ‚¾\nPush space key."
 *attack
 	clm
 	mes ename
-	if turn \ espd = 0{
-		mes ename + "‚ÌUŒ‚I\n" + eatt + "‚Ìƒ_ƒ[ƒWI"
+	if turn \ espd = 0{ ;[\]ã§ã¯ãªã[%]ã§ã¯ï¼Ÿ
+		mes ename + "ã®æ”»æ’ƒï¼\n" + eatt + "ã®ãƒ€ãƒ¡ãƒ¼ã‚¸ï¼"
 		HP = HP - eatt
 		wait 50
 	}
-	mes "‚ ‚È‚½‚ÌUŒ‚I\n"+ attk + "‚Ìƒ_ƒ[ƒWI"
+	mes "ã‚ãªãŸã®æ”»æ’ƒï¼\n"+ attk + "ã®ãƒ€ãƒ¡ãƒ¼ã‚¸ï¼"
 	eHP = eHP - attk
 	attk = att
 	onkey *battle
@@ -465,11 +466,11 @@ mes"­‚µ‹x‚ñ‚¾\nPush space key."
 	clm
 	mes ename
 	if turn \ espd = 0{
-		mes ename + "‚ÌUŒ‚I"
-		mes eatt + "‚Ìƒ_ƒ[ƒW"
+		mes ename + "ã®æ”»æ’ƒï¼"
+		mes eatt + "ã®ãƒ€ãƒ¡ãƒ¼ã‚¸"
 		HP = HP - eatt
 	}
-	mes "‚ ‚È‚½‚Í—Í‚ğ—­‚ß‚Ä‚¢‚écc"
+	mes "ã‚ãªãŸã¯åŠ›ã‚’æºœã‚ã¦ã„ã‚‹â€¦â€¦"
 	attk = attk + att + int(( dex / 2 ) + 1 )
 	onkey *battle
 	stop
@@ -478,15 +479,15 @@ mes"­‚µ‹x‚ñ‚¾\nPush space key."
 	clm
 	mes ename
 	if floor / espd +rnd(5) <= dex + rnd(dex){
-		mes"‚ ‚È‚½‚Í–³–‚É" + ename + "‚©‚ç“¦‚°Ø‚Á‚½"
+		mes"ã‚ãªãŸã¯ç„¡äº‹ã«" + ename + "ã‹ã‚‰é€ƒã’åˆ‡ã£ãŸ"
 		onkey *c
 		stop
 	}
-	mes ename + "‚É’Ç‚¢‚Â‚©‚ê‚½I"
-	wait 50
+	mes ename + "ã«è¿½ã„ã¤ã‹ã‚ŒãŸï¼"
+	wait 50 ;50frame = 1.6sec? é•·ããªã„ï¼Ÿ
 	if turn \ espd = 0{
-		mes ename + "‚ÌUŒ‚I"
-		mes eatt + "‚Ìƒ_ƒ[ƒW"
+		mes ename + "ã®æ”»æ’ƒï¼"
+		mes eatt + "ã®ãƒ€ãƒ¡ãƒ¼ã‚¸"
 		HP = HP - eatt
 	}
 	onkey *battle
@@ -494,35 +495,35 @@ mes"­‚µ‹x‚ñ‚¾\nPush space key."
 	
 *glow
 	clw
-	mes {"‚ ‚È‚½‚Í¬’·‚µ‚½
-			‚Ç‚ÌƒXƒe[ƒ^ƒX‚ğã‚°‚éH
-			MaxHPFª@ATTACKF¨
-			DEXTERITYF©"}
+	mes {"ã‚ãªãŸã¯æˆé•·ã—ãŸ
+			ã©ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’ä¸Šã’ã‚‹ï¼Ÿ
+			MaxHPï¼šâ†‘ã€€ATTACKï¼šâ†’
+			DEXTERITYï¼šâ†"}
 	mes "\n\nHP : " + HP + "/" + MHP + "   ATTACK : " + att + "  DEXTERITY : " + dex 
 
 	repeat
-		stick key;ƒJ[ƒ\ƒ‹ƒL[‚ÌŠÇ—
-		getkey flag, 27;ƒ[ƒOƒL[”z’u—p
+		stick key;ã‚«ãƒ¼ã‚½ãƒ«ã‚­ãƒ¼ã®ç®¡ç†
+		getkey flag, 27;ãƒ­ãƒ¼ã‚°ã‚­ãƒ¼é…ç½®ç”¨
 		getkey left, 72;h left
 		getkey right, 76;l right
 		getkey up, 75;k up
 		if key = 1 | left = 1{
 			clm
-			mes"DEXTERITY‚ªã‚ª‚Á‚½"
+			mes"DEXTERITYãŒä¸ŠãŒã£ãŸ"
 			dex = dex + int(( floor / 3 ) + 1)
 			onkey *c
 			stop
 		};hidari
 		if key = 2 | up = 1{
 			clm
-			mes"MaxHP‚ªã‚ª‚Á‚½"
+			mes"MaxHPãŒä¸ŠãŒã£ãŸ"
 			MHP = MHP + floor
 			onkey *c
 			stop
 		};ue
 		if key = 4 | right = 1{
 			clm
-			mes"ATTACK‚ªã‚ª‚Á‚½"
+			mes"ATTACKãŒä¸ŠãŒã£ãŸ"
 			att = att + int( ( floor / 2 ) + 1)
 			onkey *c
 			stop
@@ -533,35 +534,35 @@ mes"­‚µ‹x‚ñ‚¾\nPush space key."
 	stop
 *wear
 	clw
-	mes {"‚ ‚È‚½‚Í‘•”õ•i‚ğŒ©‚Â‚¯‚½B
-			‚È‚É‚ª‚ ‚éH
-			ŠZ‚¾IFª@Œ•‚¾IF¨
-			âÄè‚¾IF©"}
+	mes {"ã‚ãªãŸã¯è£…å‚™å“ã‚’è¦‹ã¤ã‘ãŸã€‚
+			ãªã«ãŒã‚ã‚‹ï¼Ÿ
+			é§ã ï¼ï¼šâ†‘ã€€å‰£ã ï¼ï¼šâ†’
+			ç± æ‰‹ã ï¼ï¼šâ†"}
 	mes "\n\nHP : " + HP + "/" + MHP + "   ATTACK : " + att + "  DEXTERITY : " + dex 
 
 	repeat
-		stick key;ƒJ[ƒ\ƒ‹ƒL[‚ÌŠÇ—
-		getkey flag, 27;ƒ[ƒOƒL[”z’u—p
+		stick key;ã‚«ãƒ¼ã‚½ãƒ«ã‚­ãƒ¼ã®ç®¡ç†
+		getkey flag, 27;ãƒ­ãƒ¼ã‚°ã‚­ãƒ¼é…ç½®ç”¨
 		getkey left, 72;h left
 		getkey right, 76;l right
 		getkey up, 75;k up
 		if key = 1 | left = 1{
 			clm
-			mes"DEXTERITY‚ªã‚ª‚Á‚½"
+			mes"DEXTERITYãŒä¸ŠãŒã£ãŸ"
 			dex = dex + int( ( floor / 4 ) + 1)
 			onkey *c
 			stop
 		};hidari
 		if key = 2 | up = 1{
 			clm
-			mes"MHP‚ªã‚ª‚Á‚½"
+			mes"MHPãŒä¸ŠãŒã£ãŸ"
 			MHP = MHP + int( ( floor / 2 ) + 1)
 			onkey *c
 			stop
 		};ue
 		if key = 4 | right = 1{
 			clm
-			mes"ATTACK‚ªã‚ª‚Á‚½"
+			mes"ATTACKãŒä¸ŠãŒã£ãŸ"
 			att = att + int( ( floor / 3 ) + 1)
 			onkey *c
 			stop
