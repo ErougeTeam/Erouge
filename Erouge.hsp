@@ -48,6 +48,13 @@ goto *main
 	espd = inSpd
 	ename = name
 return
+#deffunc repair int num, str name
+	mes name + "を見つけた\nHPが回復した"
+	HP = HP + num
+	if HP >= MHP{
+		HP = MHP
+	}
+return
 *DisplayHP
 		color 128, 128, 128
 		boxf 10, 465, 10 + 256, 475
@@ -198,11 +205,7 @@ mes"少し休んだ\nPush space key."
 	
 		switch eve ;イベントが重複しているから関数？かモジュール？にしたい
 			case 1
-				mes"ヤク草を見つけた\nHPが回復した"
-				HP = HP + floor
-				if HP >= MHP{
-					HP = MHP
-				}
+				repair floor, "ヤク草"
 				onkey *c
 				stop
 				swbreak
@@ -232,11 +235,7 @@ mes"少し休んだ\nPush space key."
 				stop
 				swbreak
 			case 7
-				mes"ヤク草を見つけた\nHPが回復した"
-				HP = HP + floor
-				if HP >= MHP{
-					HP = MHP
-				}
+				repair floor, "ヤク草"
 				onkey *c
 				stop
 				swbreak
@@ -251,11 +250,7 @@ mes"少し休んだ\nPush space key."
 				stop
 				swbreak
 			case 10	
-				mes"ヤク草を見つけた\nHPが回復した"
-				HP = HP + floor
-				if HP >= MHP{
-					HP = MHP
-				}
+				repair floor, "ヤク草"
 				onkey *c
 				stop
 				swbreak
@@ -310,11 +305,7 @@ mes"少し休んだ\nPush space key."
 				stop
 				swbreak
 			case 21	
-				mes"ヤク草を見つけた\nHPが回復した"
-				HP = HP + floor
-				if HP >= MHP{
-					HP = MHP
-				}
+				repair floor, "ヤク草"
 				onkey *c
 				stop
 				swbreak
