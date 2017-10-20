@@ -381,7 +381,7 @@ mes"少し休んだ\nPush space key."
 
 ;戦闘用
 *battle
-	///title "" + eHP + "[eve]" + eve
+	//title "" + isObserve + "[eve]" + eve
 	onkey 0
 	clw
 	gosub *showS
@@ -398,16 +398,10 @@ mes"少し休んだ\nPush space key."
 	}
 	turn += 1 
 	mes ename 
-	if (isObserve = 0) {
-		mes {"あなたはどうする
-			攻撃：↑　逃げる：↓
-			守る：←　溜める：→　観察 : *"}
-	}
-	if (isObserve = 1) {
-		mes {"あなたはどうする
-				攻撃：↑　逃げる：↓
-				守る：←　溜める：→　くわしく観察 : *"}
-	}
+	mes {"あなたはどうする
+		攻撃：↑　逃げる：↓
+		守る：←　溜める：→　観察 : *"}
+	
 	
 	repeat
 		stick key;カーソルキーの管理
@@ -426,7 +420,11 @@ mes"少し休んだ\nPush space key."
 		if (shift = 1 & asterisk = 1) | asteriskT = 1 {
 			if isObserve = 0 {
 				isObserve = 1
+				pos 5, 400
+				mes "さらに詳しく : *"
 				gosub *lookEnemy
+				onkey *battle
+				stop
 			} else {
 				isObserve = 0
 				goto *observe;
