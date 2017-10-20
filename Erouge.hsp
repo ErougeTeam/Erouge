@@ -1,5 +1,6 @@
+//初期処理
 title "ローグっぽいなにか名状しがたい(ry"
-title "" + eHP
+///title "eHP :" + eHP@ + "/" + eHP@eSt + "[eve]" + eve
 ;画面生成
 cls 4
 color 192,192,192
@@ -20,7 +21,9 @@ line 256,100,384,100
 line 384,100,384,200
 line 256,200,384,200
 line 0,300,680,300
+goto *main
 
+//モジュール群
 #module
 #deffunc clw
 		color 0, 0, 0
@@ -37,16 +40,14 @@ line 0,300,680,300
 		pos 5, 310
 		return
 #global
-#module
-#deffunc eSt int eHP, int eatt, int espd, str n
-	mes"敵を見つけた!"
-	eHP = floor * eHP
-	eatt = floor * eatt
-	espd = espd
-	ename = n
-	return
-#global
-	goto *main
+
+#deffunc eSt int inHP, int inAtt, int inSpd, str name
+	mes "敵を見つけた!"
+	eHP　= floor * inHP
+	eatt = floor * inAtt
+	espd = inSpd
+	ename = name
+return
 *DisplayHP
 		color 128, 128, 128
 		boxf 10, 465, 10 + 256, 475
@@ -64,7 +65,7 @@ line 0,300,680,300
 		return
 
 	
-
+//メイン処理
 *main
 	ear = 3
 	step = 0
@@ -216,20 +217,12 @@ mes"少し休んだ\nPush space key."
 				stop
 				swbreak
 			case 4
-				mes"敵を見つけた!"
-				eHP = floor * 2
-				eatt = floor * 2
-				espd = 2
-				ename = "サーペント"
+				eSt 2, 2, 2, "サーペント"
 				onkey *battle
 				stop
 				swbreak
 			case 5
-				mes"敵を見つけた!"
-				eHP = floor * 2
-				eatt = floor * 1
-				espd = 1
-				ename = "ゴブリン"
+				eSt 2, 1, 1, "ゴブリン"
 				onkey *battle
 				stop
 				swbreak
@@ -248,11 +241,7 @@ mes"少し休んだ\nPush space key."
 				stop
 				swbreak
 			case 8
-				mes"敵を見つけた!"
-				eHP = floor * 5
-				eatt = floor * 3
-				espd = 5
-				ename = "スライム"
+				eSt 5, 3, 5, "スライム"
 				onkey *battle
 				stop
 				swbreak
@@ -271,11 +260,7 @@ mes"少し休んだ\nPush space key."
 				stop
 				swbreak
 			case 11
-				mes"敵を見つけた!"
-				eHP = floor * 2
-				eatt = floor * 1
-				espd = 1
-				ename = "ホブゴブリン"
+				eSt 2, 1, 1, "ホブゴブリン"
 				onkey *battle
 				stop
 				swbreak
@@ -285,20 +270,12 @@ mes"少し休んだ\nPush space key."
 				stop
 				swbreak
 			case 13
-				mes"敵を見つけた!"
-				eHP = floor * 1
-				eatt = floor * 3
-				espd = 2
-				ename = "スプリガン"
+				eSt 1, 3, 2, "スプリガン"
 				onkey *battle
 				stop
 				swbreak
 			case 14
-				mes"敵を見つけた!"
-				eHP = floor * 1
-				eatt = floor * 2
-				espd = 1
-				ename = "スケルトン"
+				eSt 1, 2, 1, "スケルトン"
 				onkey *battle
 				stop
 				swbreak
@@ -308,11 +285,7 @@ mes"少し休んだ\nPush space key."
 				stop
 				swbreak
 			case 16
-				mes"敵を見つけた!"
-				eHP = floor * 2
-				eatt = floor * 1
-				espd = 1
-				ename = "迷宮蝙蝠"
+				eSt 2, 1, 1, "迷宮蝙蝠"
 				onkey *battle
 				stop
 				swbreak
@@ -327,11 +300,7 @@ mes"少し休んだ\nPush space key."
 				stop
 				swbreak
 			case 19
-				mes"敵を見つけた!"
-				eHP = floor * 6
-				eatt = floor * 2
-				espd = 2
-				ename = "リビングアーマー"
+				eSt 6, 2, 2, "リビングアーマー"
 				onkey *battle
 				stop
 				swbreak
@@ -350,11 +319,7 @@ mes"少し休んだ\nPush space key."
 				stop
 				swbreak
 			case 23
-				mes"敵を見つけた!"
-				eHP = floor * 3
-				eatt = floor * 1
-				espd = 3
-				ename = "オーガ"
+				eSt 3, 1, 3, "オーガ"
 				onkey *battle
 				stop
 				swbreak
@@ -369,11 +334,7 @@ mes"少し休んだ\nPush space key."
 				stop
 				swbreak
 			case 26
-				mes"敵を見つけた!"
-				eHP = floor * 8
-				eatt = floor * 10
-				espd = 1
-				ename = "ドラゴン"
+				eSt 8, 10, 1, "ドラゴン"
 				onkey *battle
 				stop
 				swbreak
@@ -408,7 +369,7 @@ mes"少し休んだ\nPush space key."
 
 ;戦闘用
 *battle
-	title "" + eHP
+	///title "" + eHP + "[eve]" + eve
 	onkey 0
 	clw
 	gosub *showS
