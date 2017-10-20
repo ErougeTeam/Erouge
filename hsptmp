@@ -56,21 +56,40 @@ return
 	}
 return
 *DisplayHP
-		color 128, 128, 128
-		boxf 10, 465, 10 + 256, 475
-		color 0, 255, 0
-		boxf 10, 465, 10 + 256 * HP / MHP, 475
-		color 255,255,255
-		pos 5, 310
-		return
+	color 128, 128, 128
+	boxf 10, 465, 10 + 256, 475
+	color 0, 255, 0
+	boxf 10, 465, 10 + 256 * HP / MHP, 475
+	color 255,255,255
+	pos 5, 310
+	return
 *showS 
-		color 255,255,255
-		pos 5,420
-		mes "HP : " + HP + "/" + MHP + "   ATTACK : " + att + "   DEXTERITY : " + dex
-		mes "歩数：" + (step * 20 + rnd(20)) + " 階層：" + floor
-		pos 10, 310
-		return
-
+	color 255,255,255
+	pos 5,420
+	mes "HP : " + HP + "/" + MHP + "   ATTACK : " + att + "   DEXTERITY : " + dex
+	mes "歩数：" + (step * 20 + rnd(20)) + " 階層：" + floor
+	pos 10, 310
+	return
+*lookEnemy
+	color 255,255,255
+	pos 200, 310
+	playerFP = sqrt(MHP) + att * 4 + dex * 2 + 1
+	enemyFP = 1.0
+	if(espd > 0) : enemyFP = ( sqrt(eMHP) + eatt * 4 ) / espd + 1
+	rateFP = enemyFP / playerFP
+	if(rateFP > 3.0) { mes "こ死ゾ"
+	} else : if(rateFP > 2.0) { mes "とてもだ"
+	} else : if(rateFP > 1.5) { mes "かなり強そうだ"
+	} else : if(rateFP > 1.0) { mes "強そうだ"
+	} else : if(rateFP > 0.7) { mes "弱そうだ"
+	} else : if(rateFP > 0.5) { mes "すこし弱そうだ"
+	} else : if(rateFP > 0.3) { mes "かなり弱そうだ"
+	} else { mes "とても弱そうだ"
+	}
+	//title "FP" + playerFP + "/eFP" + enemyFP + "/rateFP" + rateFP
+	pos 10, 310
+	return
+	
 	
 //メイン処理
 *main
@@ -85,6 +104,7 @@ MHP = 10
 att = 3
 dex = 3
 floor = 1
+isObserve = 0
 onkey *c
 stop
 
@@ -184,6 +204,7 @@ mes"少し休んだ\nPush space key."
 *event
 	onkey 0
 	clm
+	isObserve = 0
 	if floor <= 0{
 		floor = 0
 	}
@@ -377,9 +398,16 @@ mes"少し休んだ\nPush space key."
 	}
 	turn += 1 
 	mes ename 
-	mes {"あなたはどうする
-		攻撃：↑　逃げる：↓
-		守る：←　溜める：→"}
+	if (isObserve = 0) {
+		mes {"あなたはどうする
+			攻撃：↑　逃げる：↓
+			守る：←　溜める：→　観察 : *"}
+	}
+	if (isObserve = 1) {
+		mes {"あなたはどうする
+				攻撃：↑　逃げる：↓
+				守る：←　溜める：→　くわしく観察 : *"}
+	}
 	
 	repeat
 		stick key;カーソルキーの管理
@@ -388,13 +416,37 @@ mes"少し休んだ\nPush space key."
 		getkey right, 76;l right
 		getkey up, 75;k up
 		getkey down, 74;j down
+		getkey asterisk, 186:
+		getkey shift, 16:
+		getkey asteriskT, 106:
 		if key = 1 | left = 1: goto *guard;hidari
 		if key = 2 | up = 1: goto *attack;ue
 		if key = 4 | right = 1: goto *charge;migi
 		if key = 8 | down = 1: goto *escape;sita
+		if (shift = 1 & asterisk = 1) | asteriskT = 1 {
+			if isObserve = 0 {
+				isObserve = 1
+				gosub *lookEnemy
+			} else {
+				isObserve = 0
+				goto *observe;
+			}
+		}
 		if flag = 1 : end
 		wait 10
     loop
+	stop
+
+*observe
+	clm
+	mes ename
+	if turn \ espd = 0{ ;[\]ではなく[%]では？ ←ウチのシマでは\
+		mes ename + "の攻撃！\n" + eatt + "のダメージ！"
+		HP = HP - eatt
+		wait 50
+	}
+	mes "ステータス　HP "+ eHP +"  ATTACK " + eatt + "  " + espd + "ターンに一度攻撃"
+	onkey *battle
 	stop
 
 *guard
