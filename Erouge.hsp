@@ -381,8 +381,7 @@ mes"少し休んだ\nPush space key."
 		mes "敵を倒した！"
 		onkey *glow
 		stop
-	}
-	turn += 1 
+	} 
 	mes ename 
 	mes {"あなたはどうする
 		攻撃：↑　逃げる：↓
@@ -430,6 +429,7 @@ mes"少し休んだ\nPush space key."
 		wait 50
 	}
 	mes "ステータス　HP "+ eHP +"  ATTACK " + eatt + "  " + espd + "ターンに一度攻撃"
+	turn += 1
 	onkey *battle
 	stop
 
@@ -443,6 +443,7 @@ mes"少し休んだ\nPush space key."
 	}
 	else { mes ename + "は襲ってこなかった……"
 	}
+	turn += 1
 	onkey *battle
 	stop
 	
@@ -457,6 +458,7 @@ mes"少し休んだ\nPush space key."
 	mes "あなたの攻撃！\n"+ attk + "のダメージ！"
 	eHP = eHP - attk
 	attk = att
+	turn += 1
 	onkey *battle
 	stop
 	
@@ -469,7 +471,8 @@ mes"少し休んだ\nPush space key."
 		HP = HP - eatt
 	}
 	mes "あなたは力を溜めている……"
-	attk = attk + att + (dex * 2) 
+	attk = attk + att + (dex * 2)
+	turn += 1
 	onkey *battle
 	stop
 	
@@ -488,6 +491,7 @@ mes"少し休んだ\nPush space key."
 		mes eatt + "のダメージ"
 		HP = HP - eatt
 	}
+	turn += 1
 	onkey *battle
 	stop
 	
