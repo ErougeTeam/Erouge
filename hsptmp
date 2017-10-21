@@ -59,20 +59,22 @@ return
 *lookEnemy
 	color 255,255,255
 	pos 200, 310
-	playerFP = MHP + att * 12 + dex * 4 + 1
+	playerFP = MHP + att * 12 + dex * 4 + 1.0
 	enemyFP = 1.0
-	if(espd > 0) : enemyFP = ( eMHP + eatt * 24 ) / ( 1.0 + eturn ) / espd + 1
-	rateFP = enemyFP / playerFP
+	if(espd > 0) : enemyFP = double( eHP + eatt * 24 ) / sqrt(( 1.0 + double(eturn) ) * double(sqrt(espd))) + 1.0
+	rateFP = double(enemyFP) * double(enemyFP) / double(playerFP) / double(playerFP)
 	if(rateFP > 3.0) { mes "恐怖で背筋が凍る"
 	} else : if(rateFP > 2.0) { mes "とても強そうだ"
 	} else : if(rateFP > 1.5) { mes "かなり強そうだ"
 	} else : if(rateFP > 1.0) { mes "強そうだ"
+	} else : if(rateFP > 0.85) { mes "互角だ"
 	} else : if(rateFP > 0.7) { mes "弱そうだ"
 	} else : if(rateFP > 0.5) { mes "すこし弱そうだ"
 	} else : if(rateFP > 0.3) { mes "かなり弱そうだ"
-	} else { mes "とても弱そうだ"
+	} else : if(rateFP > 0.25) { mes "とても弱そうだ"
+	} else { mes "負ける気がしない"
 	}
-	//title "FP" + playerFP + "/eFP" + enemyFP + "/rateFP" + rateFP
+	logmes "FP" + playerFP + "/" + enemyFP + " = " + rateFP + "[" + eturn + "/" + espd + "]" + "[" + eHP + "/" + eatt + "]" + ( eHP + eatt * 24 ) + " @" + sqrt(( 1.0 + double(eturn) ) * double(sqrt(espd)))
 	pos 10, 310
 	return
 	
@@ -106,7 +108,7 @@ stop
 	gosub *DisplayHP
 	attk = att
 	step += 1
-	turn = 0
+	turn = -1
 
 	repeat
 		stick key;カーソルキーの管理
@@ -383,8 +385,8 @@ mes"少し休んだ\nPush space key."
 		mes "敵を倒した！"
 		onkey *glow
 		stop
-	}
-	turn += 1 
+	} 
+	turn += 1
 	mes ename 
 	mes {"あなたはどうする
 		攻撃：↑　逃げる：↓
@@ -428,7 +430,7 @@ mes"少し休んだ\nPush space key."
 	mes ename
 	gosub *eAI
 	
-	mes "ステータス　HP "+ eHP +"  ATTACK " + eatt + "  " + espd + "ターンに一度攻撃"
+	mes "ステータス　HP "+ eHP +"  ATTACK " + eatt + "  " + ( eturn + 1 ) + "回目攻撃" + espd + "回毎攻撃"
 	onkey *battle
 	stop
 
@@ -459,7 +461,7 @@ mes"少し休んだ\nPush space key."
 	mes ename
 	gosub *eAI
 	mes "あなたは力を溜めている……"
-	attk = attk + att + (dex * 2) 
+	attk = attk + att + (dex * 2)
 	onkey *battle
 	stop
 	
