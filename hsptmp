@@ -49,7 +49,7 @@ return
 	color 255,255,255
 	pos 5, 310
 	return
-*showS 
+*showS
 	color 255,255,255
 	pos 5,420
 	mes "HP : " + HP + "/" + MHP + "   ATTACK : " + att + "   DEXTERITY : " + dex

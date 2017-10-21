@@ -59,9 +59,9 @@ return
 *lookEnemy
 	color 255,255,255
 	pos 200, 310
-	playerFP = sqrt(MHP) + att * 4 + dex + 1
+	playerFP = MHP + att * 12 + dex * 4 + 1
 	enemyFP = 1.0
-	if(espd > 0) : enemyFP = ( sqrt(eMHP) + eatt * 6 ) / espd + 1
+	if(espd > 0) : enemyFP = ( eMHP + eatt * 24 ) / ( 1.0 + eturn ) / espd + 1
 	rateFP = enemyFP / playerFP
 	if(rateFP > 3.0) { mes "‹°•|‚Å”w‹Ø‚ª“€‚é"
 	} else : if(rateFP > 2.0) { mes "‚Æ‚Ä‚à‹­‚»‚¤‚¾"
