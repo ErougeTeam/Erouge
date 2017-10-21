@@ -41,11 +41,12 @@ goto *main
 		return
 #global
 
-#deffunc eSt int inHP, int inAtt, int inSpd, str name
+#deffunc eSt int inHP, int inAtt, int inSpd, int inTrn, str name
 	mes "敵を見つけた!"
 	eHP　= floor * inHP
 	eatt = floor * inAtt
 	espd = inSpd
+	eturn = inTrn
 	ename = name
 return
 #deffunc repair int num, str name
@@ -96,7 +97,7 @@ return
 	ear = 3
 	step = 0
 pos 5,310
-mes {"迷宮に行きイェンダーの耳飾りを回収することを、
+mes {"あなたは迷宮に行きイェンダーの耳飾りを回収することを、
 	強いられているんだ！
 	Push any key."}
 HP = 10
@@ -227,12 +228,12 @@ mes"少し休んだ\nPush space key."
 	
 		switch eve ;イベントが重複しているから関数？かモジュール？にしたい
 			case 1
-				repair floor, "ヤク草"
+				repair floor, "クスリ苔"
 				onkey *c
 				stop
 				swbreak
 			case 2
-				eSt 2, 1, 1, "蝙蝠"
+				eSt 2, 1, 1, 0,"蝙蝠"
 				onkey *battle
 				stop
 				swbreak
@@ -242,12 +243,12 @@ mes"少し休んだ\nPush space key."
 				stop
 				swbreak
 			case 4
-				eSt 2, 2, 2, "サーペント"
+				eSt 2, 2, 2, 1, "サーペント"
 				onkey *battle
 				stop
 				swbreak
 			case 5
-				eSt 2, 1, 1, "ゴブリン"
+				eSt 2, 1, 1, 0, "ゴブリン"
 				onkey *battle
 				stop
 				swbreak
@@ -262,7 +263,7 @@ mes"少し休んだ\nPush space key."
 				stop
 				swbreak
 			case 8
-				eSt 5, 3, 5, "スライム"
+				eSt 6, 4, 5, 3, "スライム"
 				onkey *battle
 				stop
 				swbreak
@@ -277,7 +278,7 @@ mes"少し休んだ\nPush space key."
 				stop
 				swbreak
 			case 11
-				eSt 2, 1, 1, "ホブゴブリン"
+				eSt 3, 2, 1, 0, "ホブゴブリン"
 				onkey *battle
 				stop
 				swbreak
@@ -287,12 +288,12 @@ mes"少し休んだ\nPush space key."
 				stop
 				swbreak
 			case 13
-				eSt 1, 3, 2, "スプリガン"
+				eSt 1, 3, 2, 1, "スプリガン"
 				onkey *battle
 				stop
 				swbreak
 			case 14
-				eSt 1, 2, 1, "スケルトン"
+				eSt 1, 2, 1, 0, "スケルトン"
 				onkey *battle
 				stop
 				swbreak
@@ -302,7 +303,7 @@ mes"少し休んだ\nPush space key."
 				stop
 				swbreak
 			case 16
-				eSt 2, 1, 1, "迷宮蝙蝠"
+				eSt 2, 1, 1, 0, "迷宮蝙蝠"
 				onkey *battle
 				stop
 				swbreak
@@ -317,7 +318,7 @@ mes"少し休んだ\nPush space key."
 				stop
 				swbreak
 			case 19
-				eSt 6, 2, 2, "リビングアーマー"
+				eSt 6, 2, 2, 0, "リビングアーマー"
 				onkey *battle
 				stop
 				swbreak
@@ -332,7 +333,7 @@ mes"少し休んだ\nPush space key."
 				stop
 				swbreak
 			case 23
-				eSt 3, 1, 3, "オーガ"
+				eSt 4, 3, 3, 2, "オーガ"
 				onkey *battle
 				stop
 				swbreak
@@ -347,7 +348,7 @@ mes"少し休んだ\nPush space key."
 				stop
 				swbreak
 			case 26
-				eSt 30, 10, 3, "ドラゴン"
+				eSt 30, 10, 3, 2, "ドラゴン"
 				onkey *battle
 				stop
 				swbreak
@@ -384,6 +385,7 @@ mes"少し休んだ\nPush space key."
 *battle
 	//title "" + isObserve + "[eve]" + eve
 	onkey 0
+	dmg = eatt
 	clw
 	gosub *showS
 	gosub *DisplayHP
@@ -439,11 +441,8 @@ mes"少し休んだ\nPush space key."
 *observe
 	clm
 	mes ename
-	if turn \ espd = 0{ ;[\]ではなく[%]では？ ←ウチのシマでは\
-		mes ename + "の攻撃！\n" + eatt + "のダメージ！"
-		HP = HP - eatt
-		wait 50
-	}
+	gosub *eAI
+	
 	mes "ステータス　HP "+ eHP +"  ATTACK " + eatt + "  " + espd + "ターンに一度攻撃"
 	onkey *battle
 	stop
@@ -451,12 +450,11 @@ mes"少し休んだ\nPush space key."
 *guard
 	clm
 	mes ename
-	if turn \ espd = 0{
-		mes ename + "の攻撃から身を守った"
-		HP = HP - limit(eatt - dex, 1 , eatt) 
-		wait 50
-	}
-	else { mes ename + "は襲ってこなかった……"
+	mes "あなたは身構えた"
+	dmg = limit(dmg - dex,0,dmg)
+	gosub *eAI
+	
+	if turn \ espd ! eturn { mes ename + "は襲ってこなかった……"
 	}
 	onkey *battle
 	stop
@@ -464,11 +462,7 @@ mes"少し休んだ\nPush space key."
 *attack
 	clm
 	mes ename
-	if turn \ espd = 0{ ;[\]ではなく[%]では？ ←ウチのシマでは\
-		mes ename + "の攻撃！\n" + eatt + "のダメージ！"
-		HP = HP - eatt
-		wait 50
-	}
+	gosub *eAI
 	mes "あなたの攻撃！\n"+ attk + "のダメージ！"
 	eHP = eHP - attk
 	attk = att
@@ -478,11 +472,7 @@ mes"少し休んだ\nPush space key."
 *charge
 	clm
 	mes ename
-	if turn \ espd = 0{
-		mes ename + "の攻撃！"
-		mes eatt + "のダメージ"
-		HP = HP - eatt
-	}
+	gosub *eAI
 	mes "あなたは力を溜めている……"
 	attk = attk + att + (dex * 2) 
 	onkey *battle
@@ -491,18 +481,14 @@ mes"少し休んだ\nPush space key."
 *escape
 	clm
 	mes ename
-	if floor / espd +rnd(5) <= dex + rnd(dex){
+	if floor / espd +rnd(floor/espd) <= dex + rnd(dex){
 		mes"あなたは無事に" + ename + "から逃げ切った"
 		onkey *c
 		stop
 	}
 	mes ename + "に追いつかれた！"
-	wait 50 ;50frame = 1.6sec? 長くない？ ← 0.5sec
-	if turn \ espd = 0{
-		mes ename + "の攻撃！"
-		mes eatt + "のダメージ"
-		HP = HP - eatt
-	}
+	wait 20 
+	gosub *eAI
 	onkey *battle
 	stop
 	
@@ -585,3 +571,12 @@ mes"少し休んだ\nPush space key."
 		wait 50
     loop
 	stop
+*eAI
+	if turn \ espd = eturn{
+		mes ename + "の攻撃！"
+		mes "" + dmg + "のダメージ！"
+		HP = limit (HP - dmg, 0, MHP)
+		
+		wait 10
+	}
+	return
