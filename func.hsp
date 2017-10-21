@@ -1,0 +1,22 @@
+//ÉÇÉWÉÖÅ[ÉãåQ
+#module
+	#deffunc clw
+			color 0, 0, 0
+			boxf 0, 301, 680, 480
+			color 255,255,255
+			pos 5, 310
+			return
+	
+	#deffunc clm
+			color 0, 0, 0
+			boxf 0, 301, 680, 400
+			color 255,255,255
+			pos 5, 310
+			return
+			
+	#deffunc setHSV double H, double S, double V
+		hsvcolor limitf(H, 0, 360) / 360 * 191, limitf(S, 0, 100) / 100 * 255, limitf(V, 0, 100) / 100 * 255
+		
+		logmes "" + limit(H, 0, 360) / 360 * 191
+		return
+#global

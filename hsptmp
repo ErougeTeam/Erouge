@@ -1,3 +1,5 @@
+#include "func.hsp"
+
 //‰Šúˆ—
 title "Erouge" //+ "ƒ[ƒO‚Á‚Û‚¢‚È‚É‚©–¼ó‚µ‚ª‚½‚¢(ry"
 ///title "eHP :" + eHP@ + "/" + eHP@eSt + "[eve]" + eve
@@ -23,23 +25,6 @@ line 256,200,384,200
 line 0,300,680,300
 goto *main
 
-//ƒ‚ƒWƒ…[ƒ‹ŒQ
-#module
-#deffunc clw
-		color 0, 0, 0
-		boxf 0, 301, 680, 480
-		color 255,255,255
-		pos 5, 310
-		return
-#global
-#module
-#deffunc clm
-		color 0, 0, 0
-		boxf 0, 301, 680, 400
-		color 255,255,255
-		pos 5, 310
-		return
-#global
 
 #deffunc eSt int inHP, int inAtt, int inSpd, int inTrn, str name
 	mes "“G‚ðŒ©‚Â‚¯‚½!"
@@ -59,8 +44,8 @@ return
 *DisplayHP
 	color 128, 128, 128
 	boxf 10, 465, 10 + 256, 475
-	color 0, 255, 0
-	boxf 10, 465, 10 + 256 * HP / MHP, 475
+	setHSV 120 * limit(HP, 0, abs(HP)) / MHP, 100, 60
+	boxf 10, 465, 10 + 256 * limit(HP, 0, abs(HP)) / MHP, 475
 	color 255,255,255
 	pos 5, 310
 	return
@@ -76,10 +61,10 @@ return
 	pos 200, 310
 	playerFP = sqrt(MHP) + att * 4 + dex + 1
 	enemyFP = 1.0
-	if(espd > 0) : enemyFP = ( sqrt(eMHP) + eatt * 4 ) / espd + 1
+	if(espd > 0) : enemyFP = ( sqrt(eMHP) + eatt * 6 ) / espd + 1
 	rateFP = enemyFP / playerFP
-	if(rateFP > 3.0) { mes "‚±Ž€ƒ]"
-	} else : if(rateFP > 2.0) { mes "‚Æ‚Ä‚à‚¾"
+	if(rateFP > 3.0) { mes "‹°•|‚Å”w‹Ø‚ª“€‚é"
+	} else : if(rateFP > 2.0) { mes "‚Æ‚Ä‚à‹­‚»‚¤‚¾"
 	} else : if(rateFP > 1.5) { mes "‚©‚È‚è‹­‚»‚¤‚¾"
 	} else : if(rateFP > 1.0) { mes "‹­‚»‚¤‚¾"
 	} else : if(rateFP > 0.7) { mes "Žã‚»‚¤‚¾"
