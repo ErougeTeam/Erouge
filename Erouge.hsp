@@ -106,7 +106,7 @@ stop
 	gosub *DisplayHP
 	attk = att
 	step += 1
-	turn = 0
+	turn = -1
 
 	repeat
 		stick key;カーソルキーの管理
@@ -383,8 +383,8 @@ mes"少し休んだ\nPush space key."
 		mes "敵を倒した！"
 		onkey *glow
 		stop
-	}
-	turn += 1 
+	} 
+	turn += 1
 	mes ename 
 	mes {"あなたはどうする
 		攻撃：↑　逃げる：↓
@@ -459,7 +459,7 @@ mes"少し休んだ\nPush space key."
 	mes ename
 	gosub *eAI
 	mes "あなたは力を溜めている……"
-	attk = attk + att + (dex * 2) 
+	attk = attk + att + (dex * 2)
 	onkey *battle
 	stop
 	
