@@ -105,7 +105,7 @@ stop
 	gosub *DisplayHP
 	attk = att
 	step += 1
-	turn = 0
+	turn = -1
 
 	repeat
 		stick key;カーソルキーの管理
@@ -382,6 +382,7 @@ mes"少し休んだ\nPush space key."
 		onkey *glow
 		stop
 	} 
+	turn += 1
 	mes ename 
 	mes {"あなたはどうする
 		攻撃：↑　逃げる：↓
@@ -429,7 +430,6 @@ mes"少し休んだ\nPush space key."
 		wait 50
 	}
 	mes "ステータス　HP "+ eHP +"  ATTACK " + eatt + "  " + espd + "ターンに一度攻撃"
-	turn += 1
 	onkey *battle
 	stop
 
@@ -443,7 +443,6 @@ mes"少し休んだ\nPush space key."
 	}
 	else { mes ename + "は襲ってこなかった……"
 	}
-	turn += 1
 	onkey *battle
 	stop
 	
@@ -458,7 +457,6 @@ mes"少し休んだ\nPush space key."
 	mes "あなたの攻撃！\n"+ attk + "のダメージ！"
 	eHP = eHP - attk
 	attk = att
-	turn += 1
 	onkey *battle
 	stop
 	
@@ -472,7 +470,6 @@ mes"少し休んだ\nPush space key."
 	}
 	mes "あなたは力を溜めている……"
 	attk = attk + att + (dex * 2)
-	turn += 1
 	onkey *battle
 	stop
 	
@@ -491,7 +488,6 @@ mes"少し休んだ\nPush space key."
 		mes eatt + "のダメージ"
 		HP = HP - eatt
 	}
-	turn += 1
 	onkey *battle
 	stop
 	
