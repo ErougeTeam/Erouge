@@ -2,30 +2,55 @@
 
 //初期処理
 title "Erouge" //+ "ローグっぽいなにか名状しがたい(ry"
-///title "eHP :" + eHP@ + "/" + eHP@eSt + "[eve]" + eve
+
 ;画面生成
 cls 4
-color 192,192,192
-boxf 0,0,680,300
-color 128,128,128
-boxf 85,33,560,267
-color 64,64,64
-boxf 170,66,470,234
-color 0,0,0
-boxf 256,100,384,200
-color 255,255,255
-line 0,0,256,100
-line 0,300,256,200
-line 640,0,384,100
-line 640,300,384,200
-line 256,100,256,200
-line 256,100,384,100
-line 384,100,384,200
-line 256,200,384,200
-line 0,300,680,300
+buffer 1
+picload "pic\\m87.png"
+screen 0
+color 0, 0, 0
+boxf 0, 0, 680, 480
+clearScreen
 goto *main
 
-
+#deffunc clearScreen
+	color 192,192,192
+	boxf 0,0,680,300
+	color 128,128,128
+	boxf 85,33,560,267
+	color 64,64,64
+	boxf 170,66,470,234
+	color 0,0,0
+	boxf 256,100,384,200
+	color 255,255,255
+	line 0,0,256,100
+	line 0,300,256,200
+	line 640,0,384,100
+	line 640,300,384,200
+	line 256,100,256,200
+	line 256,100,384,100
+	line 384,100,384,200
+	line 256,200,384,200
+	line 0,300,680,300
+return
+#deffunc showEnemy str name
+	widthPic = 0
+	heightPic = 0
+	if(name == "蝙蝠") {
+		widthPic = 169
+		heightPic = 92
+		color 255, 255, 255
+	}
+	if(name == "サーペント") {
+		widthPic = 290
+		heightPic = 256
+		color 255, 255, 255
+	}
+	gmode 4, widthPic, heightPic, 256
+	pos 680 / 2 - widthPic / 2, 310 / 2 - heightPic / 2
+	gcopy 1, 0, 0
+	pos 5, 310
+return
 #deffunc eSt int inHP, int inAtt, int inSpd, int inTrn, str name
 	mes "敵を見つけた!"
 	eHP　= floor * inHP
@@ -33,6 +58,7 @@ goto *main
 	espd = inSpd
 	eturn = inTrn
 	ename = name
+	showEnemy name
 return
 #deffunc repair int num, str name
 	mes name + "を見つけた\nHPが回復した"
@@ -382,6 +408,7 @@ mes"少し休んだ\nPush space key."
 		stop
 	}
 	if eHP <= 0{
+		clearScreen
 		mes "敵を倒した！"
 		onkey *glow
 		stop
