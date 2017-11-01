@@ -6,7 +6,7 @@ title "Erouge" //+ "ローグっぽいなにか名状しがたい(ry"
 ;画面生成
 cls 4
 buffer 1
-picload "pic\\m87.png"
+//picload "pic\\m87.png"
 screen 0
 color 0, 0, 0
 boxf 0, 0, 680, 480
@@ -33,24 +33,24 @@ goto *main
 	line 256,200,384,200
 	line 0,300,680,300
 return
-#deffunc showEnemy str name
-	widthPic = 0
-	heightPic = 0
-	if(name == "蝙蝠") {
-		widthPic = 169
-		heightPic = 92
-		color 255, 255, 255
-	}
-	if(name == "サーペント") {
-		widthPic = 290
-		heightPic = 256
-		color 255, 255, 255
-	}
-	gmode 4, widthPic, heightPic, 256
-	pos 680 / 2 - widthPic / 2, 310 / 2 - heightPic / 2
-	gcopy 1, 0, 0
-	pos 5, 310
-return
+//#deffunc showEnemy str name
+	//widthPic = 0
+	//heightPic = 0
+	//if(name == "蝙蝠") {
+		//widthPic = 169
+		//heightPic = 92
+		//color 255, 255, 255
+	//}
+	//if(name == "サーペント") {
+		//widthPic = 290
+		//heightPic = 256
+		//color 255, 255, 255
+	//}
+	//gmode 4, widthPic, heightPic, 256
+	//pos 680 / 2 - widthPic / 2, 310 / 2 - heightPic / 2
+	//gcopy 1, 0, 0
+	//pos 5, 310
+//return
 #deffunc eSt int inHP, int inAtt, int inSpd, int inTrn, str name
 	mes "敵を見つけた!"
 	eHP　= floor * inHP
@@ -58,7 +58,7 @@ return
 	espd = inSpd
 	eturn = inTrn
 	ename = name
-	showEnemy name
+//	showEnemy name
 return
 #deffunc repair int num, str name
 	mes name + "を見つけた\nHPが回復した"
@@ -118,7 +118,7 @@ MHP = 10
 att = 3
 dex = 3
 floor = 1
-isObserve = 0
+//isObserve = 0
 onkey *c
 stop
 
@@ -131,10 +131,10 @@ stop
 	休む：←　探す：→"}
 	sstep = step + rnd(20)
 	gosub *showS
-	gosub *DisplayHP
+	//gosub *DisplayHP
 	attk = att
 	step += 1
-	turn = -1
+	turn = 0
 
 	repeat
 		stick key;カーソルキーの管理
@@ -246,7 +246,7 @@ mes"少し休んだ\nPush space key."
 				stop
 				swbreak
 			case 2
-				eSt 2, 1, 1, 0,"蝙蝠"
+				eSt 2, 1, 1, 0,"イーク"
 				onkey *battle
 				stop
 				swbreak
@@ -261,8 +261,8 @@ mes"少し休んだ\nPush space key."
 				stop
 				swbreak
 			case 5
-				eSt 2, 1, 1, 0, "ゴブリン"
-				onkey *battle
+				mes"冒険者の亡骸だ"
+				onkey *wear
 				stop
 				swbreak
 			case 6
@@ -271,12 +271,12 @@ mes"少し休んだ\nPush space key."
 				stop
 				swbreak
 			case 7
-				repair floor, "ヤク草"
+				repair floor * 2, "ヤク草"
 				onkey *c
 				stop
 				swbreak
 			case 8
-				eSt 6, 4, 5, 3, "スライム"
+				eSt 2, 1, 1, 0, "ゴブリン"
 				onkey *battle
 				stop
 				swbreak
@@ -306,7 +306,7 @@ mes"少し休んだ\nPush space key."
 				stop
 				swbreak
 			case 14
-				eSt 1, 2, 1, 0, "スケルトン"
+				eSt 2, 2, 1, 0, "スケルトン"
 				onkey *battle
 				stop
 				swbreak
@@ -326,8 +326,8 @@ mes"少し休んだ\nPush space key."
 				stop
 				swbreak
 			case 18
-				mes"冒険者の亡骸だ"
-				onkey *wear
+				eSt 6, 4, 5, 3, "スライム"
+				onkey *battle
 				stop
 				swbreak
 			case 19
@@ -361,7 +361,7 @@ mes"少し休んだ\nPush space key."
 				stop
 				swbreak
 			case 26
-				eSt 30, 10, 3, 2, "ドラゴン"
+				eSt 8, 7, 3, 2, "ドラゴン"
 				onkey *battle
 				stop
 				swbreak
@@ -397,11 +397,12 @@ mes"少し休んだ\nPush space key."
 ;戦闘用
 *battle
 	//title "" + isObserve + "[eve]" + eve
+	title "" + espd
 	onkey 0
 	dmg = eatt
 	clw
 	gosub *showS
-	gosub *DisplayHP
+	//gosub *DisplayHP
 	if HP <= 0{
 		mes "あなたは死んでしまった……"
 		onkey *score
@@ -417,7 +418,7 @@ mes"少し休んだ\nPush space key."
 	mes ename 
 	mes {"あなたはどうする
 		攻撃：↑　逃げる：↓
-		守る：←　溜める：→　観察 : *"}
+		守る：←　溜める：→　"}//観察 : *"}
 	
 	
 	repeat
@@ -427,6 +428,7 @@ mes"少し休んだ\nPush space key."
 		getkey right, 76;l right
 		getkey up, 75;k up
 		getkey down, 74;j down
+		getkey f, 70
 		getkey asterisk, 186:
 		getkey shift, 16:
 		getkey asteriskT, 106:
@@ -434,19 +436,21 @@ mes"少し休んだ\nPush space key."
 		if key = 2 | up = 1: goto *attack;ue
 		if key = 4 | right = 1: goto *charge;migi
 		if key = 8 | down = 1: goto *escape;sita
-		if (shift = 1 & asterisk = 1) | asteriskT = 1 {
-			if isObserve = 0 {
-				isObserve = 1
-				pos 5, 400
-				mes "さらに詳しく : *"
-				gosub *lookEnemy
-				onkey *battle
-				stop
-			} else {
-				isObserve = 0
-				goto *observe;
-			}
-		}
+		if (shift = 1 & asterisk = 1) | asteriskT = 1: gosub *lookEnemy
+		if shift = 1 & f = 1: goto *fight
+		//if (shift = 1 & asterisk = 1) | asteriskT = 1 {
+			//if isObserve = 0 {
+				//isObserve = 1
+				//pos 5, 400
+				//mes "さらに詳しく : *"
+				//gosub *lookEnemy
+				//onkey *battle
+				//stop
+			//} else {
+				//isObserve = 0
+				//goto *observe;
+			//}
+		//}
 		if flag = 1 : end
 		wait 10
     loop
@@ -461,6 +465,13 @@ mes"少し休んだ\nPush space key."
 	onkey *battle
 	stop
 
+*fight
+	repeat
+		if HP <= MHP / 2  | eHP <= 0 : goto *battle
+		HP = HP - eatt
+		eHP = eHP - attk
+		attk = att
+	loop
 *guard
 	clm
 	mes ename
@@ -495,7 +506,7 @@ mes"少し休んだ\nPush space key."
 *escape
 	clm
 	mes ename
-	if floor / espd +rnd(floor/espd) <= dex + rnd(dex){
+	if floor / espd + rnd( limit(floor/espd,1,30)) <= dex + rnd(dex){
 		mes"あなたは無事に" + ename + "から逃げ切った"
 		onkey *c
 		stop
@@ -509,7 +520,7 @@ mes"少し休んだ\nPush space key."
 *glow
 	clw
 	gosub *showS
-	gosub *DisplayHP
+	//gosub *DisplayHP
 	mes {"あなたは成長した
 			どのステータスを上げる？
 			MaxHP：↑　ATTACK：→
@@ -524,7 +535,7 @@ mes"少し休んだ\nPush space key."
 		if key = 1 | left = 1{
 			clm
 			mes"DEXTERITYが上がった"
-			dex = dex + int(( floor / 3 ) + 1)
+			dex = dex + int(( floor / 3 ) + 0.5)
 			onkey *c
 			stop
 		};hidari
@@ -538,12 +549,12 @@ mes"少し休んだ\nPush space key."
 		if key = 4 | right = 1{
 			clm
 			mes"ATTACKが上がった"
-			att = att + int( ( floor / 2 ) + 1)
+			att = att + int( ( floor / 2 ) + 0.5)
 			onkey *c
 			stop
 		};migi
 		if flag = 1 : end
-		wait 50
+		wait 10
     loop
 	stop
 *wear
@@ -553,7 +564,7 @@ mes"少し休んだ\nPush space key."
 			鎧だ！：↑　剣だ！：→
 			籠手だ！：←"}
 	gosub *showS
-	gosub *DisplayHP
+	//gosub *DisplayHP
 	repeat
 		stick key;カーソルキーの管理
 		getkey flag, 27;ローグキー配置用
